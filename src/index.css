@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Rye', serif;
+}
+
+body {
+  @apply bg-ink text-paper overflow-x-hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar for Webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1614; 
+}
+::-webkit-scrollbar-thumb {
+  background: #b05a39; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #781e1e; 
+}
+
+/* Utility for scanning lines or CRT effect if needed */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2)
+  );
+  background-size: 100% 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 50;
+}
