@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { QrReader } from 'react-qr-reader';
+import { Html5Qrcode } from 'html5-qrcode';
 import { Camera, Lock, Unlock, Map, Skull, FileText, X, ChevronDown, ChevronUp, Search, PenTool, Eye, Key } from 'lucide-react';
 
 // --- DATA & CONTENT ---
@@ -509,15 +509,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
     const streamRef = useRef(null);
 
     // --- QR Logic ---
-    const handleScan = (result, error) => {
-        if (result) {
-            verifyCode(result?.text);
-        }
-        if (error) {
-            // Minimal feedback or ignore as per request
-            // console.info(error); 
-        }
-    };
+    // (Old handleScan removed, logic moved to useEffect)
 
     const handleManualSubmit = (e) => {
         e.preventDefault();
@@ -548,6 +540,58 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
         setSelectedClue(clue);
     };
 
+    // --- HTML5 QR Scanner Logic ---
+    useEffect(() => {
+        let html5QrCode = null;
+
+        if (isScanning) {
+            // Need a small delay to ensure the DOM element exists
+            const startScanner = async () => {
+                try {
+                    // Small timeout to allow render
+                    await new Promise(r => setTimeout(r, 100));
+
+                    if (!document.getElementById('reader')) return;
+
+                    html5QrCode = new Html5Qrcode("reader");
+
+                    await html5QrCode.start(
+                        { facingMode: "environment" },
+                        {
+                            fps: 10,
+                            qrbox: { width: 250, height: 250 },
+                            aspectRatio: 1.0
+                        },
+                        (decodedText) => {
+                            // Success callback
+                            verifyCode(decodedText);
+                            // Optional: Stop scanning on success if desired, but we usually keep it open or let user close
+                            // setIsScanning(false); // Uncomment to close immediately
+                        },
+                        (errorMessage) => {
+                            // Error callback (scanning...)
+                            // console.log(errorMessage);
+                        }
+                    );
+                } catch (err) {
+                    console.error("Error starting scanner:", err);
+                    setError("Errore fotocamera. Usa codice.");
+                }
+            };
+
+            startScanner();
+        }
+
+        // Cleanup
+        return () => {
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                }).catch(err => console.error("Error stopping scanner", err));
+            }
+        };
+    }, [isScanning]);
+
     return (
         <div className="p-4 pb-24 min-h-screen relative">
 
@@ -561,19 +605,9 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                 <div className="fixed inset-0 z-50 bg-ink flex flex-col items-center justify-center">
                     <div className="relative w-full h-full flex flex-col bg-black">
 
-                        {/* QR READER with SEPIA Filter */}
-                        <div className="w-full h-full relative overflow-hidden">
-                            <QrReader
-                                onResult={handleScan}
-                                constraints={{ facingMode: 'environment' }}
-                                videoContainerStyle={{ paddingTop: 0, height: '100%' }}
-                                videoStyle={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover'
-                                }}
-                                ViewFinder={() => null} // No default viewfinder
-                            />
+                        {/* HTML5 QR READER container */}
+                        <div id="reader" className="w-full h-full relative overflow-hidden bg-black">
+                            {/* The library will inject the video here */}
                         </div>
 
                         {/* Old Photo Overlay Effects - REMOVED FOR VISIBILITY */}
@@ -885,9 +919,12 @@ export default function App() {
     }, []);
 
     const handleUnlock = (clueId) => {
-        const newUnlocked = [...unlockedClues, clueId];
-        setUnlockedClues(newUnlocked);
-        localStorage.setItem('ranch_clues', JSON.stringify(newUnlocked));
+        setUnlockedClues(prev => {
+            if (prev.includes(clueId)) return prev;
+            const newUnlocked = [...prev, clueId];
+            localStorage.setItem('ranch_clues', JSON.stringify(newUnlocked));
+            return newUnlocked;
+        });
     };
 
     const handleLogin = (team) => {
