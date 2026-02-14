@@ -385,7 +385,7 @@ const ClueModal = ({ clue, onClose }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fadeIn">
-            <div className="w-full max-w-lg p-6 relative shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#262220] max-h-[90vh] overflow-y-auto"
+            <div className="w-full max-w-lg p-6 relative shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#262220] max-h-[85vh] overflow-y-auto overscroll-contain"
                 style={WOOD_STYLE}>
 
                 <button
@@ -418,10 +418,13 @@ const ClueModal = ({ clue, onClose }) => {
                 </div>
 
                 {/* Detail Section */}
-                <div className="bg-[#3e2b22] px-3 py-2 border-l-4 border-rust">
+                <div className="bg-[#3e2b22] px-3 py-2 border-l-4 border-rust mb-6">
                     <p className="text-[#dcb878] font-bold text-xs font-serif uppercase tracking-wider">Dettagli Nascosti:</p>
                     <p className="text-paper-light text-xs italic font-mono mt-1">{clue.detail}</p>
                 </div>
+
+                {/* Extra spacer for mobile scrolling */}
+                <div className="h-12 w-full"></div>
 
             </div>
         </div>
