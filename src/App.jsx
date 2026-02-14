@@ -232,7 +232,7 @@ const FogEffect = () => (
 // --- COMPONENTS ---
 
 const Header = () => (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-[#1a1614] text-paper shadow-md border-b-4 border-rust w-full">
+    <header className="fixed top-0 left-0 right-0 z-[60] bg-[#1a1614] text-paper shadow-md border-b-4 border-rust w-full">
         {/* Full width container with max-width for very large screens, but responsive padding */}
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
