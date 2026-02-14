@@ -385,7 +385,7 @@ const ClueModal = ({ clue, onClose }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-fadeIn">
-            <div className="w-full max-w-lg p-6 relative shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#262220]"
+            <div className="w-full max-w-lg p-6 relative shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#262220] max-h-[90vh] overflow-y-auto"
                 style={WOOD_STYLE}>
 
                 <button
@@ -568,20 +568,20 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                                     width: '100%',
                                     height: '100%',
                                     objectFit: 'cover',
-                                    filter: 'sepia(0.8) contrast(1.2) brightness(0.9) grayscale(0.2)'
+                                    filter: 'sepia(0.5) contrast(1.1) brightness(1.1) grayscale(0)'
                                 }}
                                 ViewFinder={() => null} // No default viewfinder
                             />
                         </div>
 
-                        {/* Old Photo Overlay Effects */}
-                        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_40%,rgba(0,0,0,0.8)_100%)]"></div>
-                        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/dust.png')]"></div>
-                        <div className="absolute inset-0 pointer-events-none border-[20px] border-ink opacity-90"></div>
+                        {/* Old Photo Overlay Effects - Reduced opacity/interference */}
+                        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.6)_100%)] z-10"></div>
+                        <div className="absolute inset-0 pointer-events-none opacity-10 bg-[url('https://www.transparenttextures.com/patterns/dust.png')] z-10"></div>
+                        <div className="absolute inset-0 pointer-events-none border-[20px] border-ink opacity-90 z-10"></div>
 
 
                         {/* UI */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-20">
                             <div className="w-64 h-64 border-[3px] border-paper rounded-sm relative shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                                 <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-rust"></div>
                                 <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-rust"></div>
@@ -770,19 +770,6 @@ const AccuseTab = ({ characters, teamName }) => {
                         </div>
                     </div>
 
-                    {/* Footer / Stamp */}
-                    <div className="mt-8 pt-4 border-t-4 border-[#5a3a2a] relative">
-                        <p className="font-bold text-[10px] uppercase text-[#9c8c74] tracking-widest">Ordine dello Sceriffo Higgins</p>
-
-                        {/* Stamp */}
-                        <div className="absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/4 rotate-[-15deg] opacity-90 pointer-events-none">
-                            <div className="w-24 h-24 rounded-full border-4 border-blood flex items-center justify-center p-1 bg-paper-light/50 backdrop-blur-sm">
-                                <div className="text-blood font-black text-xs uppercase text-center leading-tight tracking-widest border-2 border-blood rounded-full w-full h-full flex items-center justify-center p-1">
-                                    CATTURATO<br />DAL<br />{teamName ? teamName.split(' ')[0] : 'RANCH'}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div className="mt-12 text-center relative z-10 w-full px-8">
