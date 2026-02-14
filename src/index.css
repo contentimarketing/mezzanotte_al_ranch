@@ -7,34 +7,43 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   @apply bg-ink text-paper overflow-x-hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 /* Custom Scrollbar for Webkit */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #1a1614; 
+  background: #1a1614;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #b05a39; 
+  background: #b05a39;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #781e1e; 
+  background: #781e1e;
 }
 
 /* Utility for scanning lines or CRT effect if needed */
 .scanline {
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0),
-    rgba(255,255,255,0) 50%,
-    rgba(0,0,0,0.2) 50%,
-    rgba(0,0,0,0.2)
-  );
+  background: linear-gradient(to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.2));
   background-size: 100% 4px;
   position: absolute;
   top: 0;
