@@ -5,11 +5,11 @@ import { Camera, Lock, Unlock, Map, Skull, FileText, X, ChevronDown, ChevronUp, 
 // --- DATA & CONTENT ---
 
 const TEAMS = [
-    { id: 'peccatori', name: 'I Peccatori del Canyon', password: 'peccatori' },
-    { id: 'bayou', name: 'La Banda del Bayou', password: 'bayou' },
-    { id: 'stivali', name: 'Gli Stivali Sporchi', password: 'stivali' },
-    { id: 'peyotes', name: 'I Peyotes', password: 'peyotes' },
-    { id: 'candie', name: 'La Famiglia Candie', password: 'candie' }
+    { id: 'peccatori', name: 'I Peccatori del Canyon', password: 'sin' },
+    { id: 'bayou', name: 'La Banda del Bayou', password: 'alligator' },
+    { id: 'stivali', name: 'Gli Stivali Sporchi', password: 'spurs' },
+    { id: 'peyotes', name: 'I Peyotes', password: 'weed' },
+    { id: 'candie', name: 'La Famiglia Candie', password: 'django' }
 ];
 
 const CHARACTERS = [
@@ -299,7 +299,7 @@ const LoginScreen = ({ onLogin }) => {
             return;
         }
 
-        if (password.toLowerCase().trim() === team.password) {
+        if (password.toLowerCase().trim() === team.password.toLowerCase()) {
             onLogin(team);
         } else {
             setError("Parola d'ordine errata.");
@@ -338,11 +338,11 @@ const LoginScreen = ({ onLogin }) => {
                     />
                 </div>
 
-                <div className="mb-8 border-b-4 border-rust pb-4 mt-12">
-                    <h1 className="font-black text-4xl mb-2 text-[#dcb878] uppercase tracking-widest font-serif" style={{ textShadow: '2px 2px 0 #000' }}>
+                <div className="mb-8 border-b-4 border-rust pb-4 mt-12 w-full text-center">
+                    <h1 className="font-black text-3xl sm:text-4xl mb-2 text-[#dcb878] uppercase tracking-widest font-serif w-full" style={{ textShadow: '2px 2px 0 #000' }}>
                         MEZZANOTTE
                     </h1>
-                    <h2 className="font-bold text-xl text-rust tracking-[0.5em] uppercase">Al Ranch</h2>
+                    <h2 className="font-bold text-lg sm:text-xl text-rust tracking-[0.5em] uppercase w-full">Al Ranch</h2>
                 </div>
 
                 <p className="mb-8 text-[#e6dcc3] font-serif text-lg leading-relaxed italic">
@@ -374,9 +374,7 @@ const LoginScreen = ({ onLogin }) => {
                 </form>
             </div>
 
-            <p className="relative z-10 mt-8 text-[#9c8c74] text-xs font-mono text-center max-w-xs">
-                "Lasciate ogni speranza, o voi ch'entrate."
-            </p>
+
             <FogEffect />
         </div>
     );
