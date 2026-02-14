@@ -286,23 +286,21 @@ const Nav = ({ activeTab, setActiveTab }) => {
 // --- LOGIN COMPONENT ---
 
 const LoginScreen = ({ onLogin }) => {
-    const [selectedTeam, setSelectedTeam] = useState('');
+    // const [selectedTeam, setSelectedTeam] = useState(''); // Removed as we infer team from password
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const team = TEAMS.find(t => t.id === selectedTeam);
+        const inputPwd = password.toLowerCase().trim();
 
-        if (!team) {
-            setError("Seleziona una banda, straniero.");
-            return;
-        }
+        // Find team based on password
+        const team = TEAMS.find(t => t.password.toLowerCase() === inputPwd);
 
-        if (password.toLowerCase().trim() === team.password.toLowerCase()) {
+        if (team) {
             onLogin(team);
         } else {
-            setError("Parola d'ordine errata.");
+            setError("Parola d'ordine errata. O non sei dei nostri.");
         }
     };
 
