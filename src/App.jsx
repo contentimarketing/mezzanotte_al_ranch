@@ -232,24 +232,27 @@ const FogEffect = () => (
 // --- COMPONENTS ---
 
 const Header = () => (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-[#1a1614] text-paper p-4 shadow-md border-b-4 border-rust flex items-center justify-between">
-        <div className="flex items-center gap-3">
-            <img
-                src={HORSE_ICON_URL}
-                alt="Skull Icon"
-                className="w-10 h-10 rounded-full border-2 border-[#1a1614] object-cover"
-                style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 5px #00ff00' }}
-            />
-            <div>
-                <h1 className="font-black text-xl tracking-widest uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
-                    MEZZANOTTE
-                </h1>
-                <p className="text-[10px] text-[#9c8c74] font-bold uppercase tracking-[0.2em]">Caccia al Ranch</p>
+    <header className="fixed top-0 left-0 right-0 z-40 bg-[#1a1614] text-paper shadow-md border-b-4 border-rust w-full">
+        {/* Full width container with max-width for very large screens, but responsive padding */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <img
+                    src={HORSE_ICON_URL}
+                    alt="Skull Icon"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-[#1a1614] object-cover shrink-0"
+                    style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 5px #00ff00' }}
+                />
+                <div>
+                    <h1 className="font-black text-xl sm:text-2xl tracking-[0.15em] uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
+                        MEZZANOTTE
+                    </h1>
+                    <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Caccia al Ranch</p>
+                </div>
             </div>
-        </div>
-        <div className="text-right border-l-2 border-rust pl-3 relative z-10">
-            <p className="text-[10px] text-[#9c8c74] font-mono tracking-wider font-bold">CASO #1908</p>
-            <p className="text-[10px] text-blood font-black font-mono uppercase">Vittima: Vane</p>
+            <div className="text-right border-l-2 border-rust pl-4 relative z-10 hidden xs:block">
+                <p className="text-[10px] sm:text-xs text-[#9c8c74] font-mono tracking-wider font-bold">CASO #1908</p>
+                <p className="text-[10px] sm:text-xs text-blood font-black font-mono uppercase">Vittima: Vane</p>
+            </div>
         </div>
     </header>
 );
