@@ -567,17 +567,16 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                                 videoStyle={{
                                     width: '100%',
                                     height: '100%',
-                                    objectFit: 'cover',
-                                    filter: 'sepia(0.5) contrast(1.1) brightness(1.1) grayscale(0)'
+                                    objectFit: 'cover'
                                 }}
                                 ViewFinder={() => null} // No default viewfinder
                             />
                         </div>
 
-                        {/* Old Photo Overlay Effects - Reduced opacity/interference */}
-                        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.6)_100%)] z-10"></div>
-                        <div className="absolute inset-0 pointer-events-none opacity-10 bg-[url('https://www.transparenttextures.com/patterns/dust.png')] z-10"></div>
-                        <div className="absolute inset-0 pointer-events-none border-[20px] border-ink opacity-90 z-10"></div>
+                        {/* Old Photo Overlay Effects - REMOVED FOR VISIBILITY */}
+                        {/* <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.6)_100%)] z-10"></div> */}
+                        {/* <div className="absolute inset-0 pointer-events-none opacity-10 bg-[url('https://www.transparenttextures.com/patterns/dust.png')] z-10"></div> */}
+                        {/* <div className="absolute inset-0 pointer-events-none border-[20px] border-ink opacity-90 z-10"></div> */}
 
 
                         {/* UI */}
