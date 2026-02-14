@@ -249,7 +249,7 @@ const Header = () => (
                     <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Caccia al Ranch</p>
                 </div>
             </div>
-            <div className="text-right border-l-2 border-rust pl-4 relative z-10 hidden xs:block">
+            <div className="text-right border-l-2 border-rust pl-3 relative z-10 shrink-0">
                 <p className="text-[10px] sm:text-xs text-[#9c8c74] font-mono tracking-wider font-bold">CASO #1908</p>
                 <p className="text-[10px] sm:text-xs text-blood font-black font-mono uppercase">Vittima: Vane</p>
             </div>
