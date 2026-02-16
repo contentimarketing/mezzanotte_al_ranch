@@ -249,7 +249,7 @@ const Header = () => (
                     <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Caccia al Ranch</p>
                 </div>
             </div>
-            <div className="text-right border-l-2 border-rust pl-3 relative z-10 shrink-0 block">
+            <div className="text-right relative z-10 shrink-0 block">
                 <p className="text-[10px] sm:text-xs text-[#781e1e] font-mono tracking-wider font-bold">CASO #1908</p>
                 <p className="text-[10px] sm:text-xs text-blood font-black font-mono uppercase">Vittima: Vane</p>
             </div>
@@ -448,7 +448,7 @@ const StoryTab = ({ teamName }) => {
             <div className="p-6 rounded-sm shadow-[8px_8px_0_#000] border-4 border-[#262220] relative"
                 style={WOOD_STYLE}>
 
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blood text-paper-light px-6 py-2 text-sm font-black tracking-[0.2em] uppercase shadow-[3px_3px_0_#000] border-2 border-[#262220] skew-x-[-10deg]">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blood text-paper-light px-6 py-2 text-sm font-black tracking-[0.2em] uppercase shadow-[3px_3px_0_#000] border-2 border-[#262220] skew-x-[-10deg] whitespace-nowrap">
                     Il Crimine
                 </div>
                 <h3 className="font-black text-4xl mb-4 text-[#dcb878] text-center mt-4 border-b-4 border-[#5a3a2a] pb-2 font-serif" style={{ textShadow: '1px 1px 0 #000' }}>
