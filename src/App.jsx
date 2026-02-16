@@ -471,7 +471,7 @@ const TextModal = ({ title, content, onClose }) => {
                 </div>
 
                 {/* Content */}
-                <div className="p-6 overflow-y-auto custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] font-mono text-sm leading-relaxed text-[#262220] whitespace-pre-wrap">
+                <div className="p-6 overflow-y-auto overflow-x-hidden custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] font-mono text-sm leading-relaxed text-[#262220]" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                     {content}
                 </div>
 
@@ -540,13 +540,13 @@ const StoryTab = ({ teamName }) => {
                             onClick={() => setOpenChar(openChar === char.id ? null : char.id)}
                         >
                             <div
-                                className="w-24 h-24 bg-[#1a1614] flex-shrink-0 border-r-4 border-[#262220] flex items-center justify-center overflow-hidden relative group-hover:brightness-110 transition-all"
+                                className="w-32 h-32 bg-[#1a1614] flex-shrink-0 border-r-4 border-[#262220] flex items-center justify-center overflow-hidden relative group-hover:brightness-110 transition-all"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setViewingImage(char.image);
                                 }}
                             >
-                                <img src={char.image} alt={char.name} className="w-full h-full object-cover filter sepia contrast-125 hover:scale-110 transition-transform duration-500" />
+                                <img src={char.image} alt={char.name} className="w-[120%] h-[120%] object-cover filter sepia contrast-125 hover:scale-125 transition-transform duration-500" />
                                 <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all"></div>
                                 <div className="absolute bottom-1 right-1 bg-black/50 p-1 rounded-full border border-[#dcb878]">
                                     <Search size={12} className="text-[#dcb878]" />
@@ -909,6 +909,14 @@ const AccuseTab = ({ characters, teamName }) => {
         }
     }, []);
 
+    const handleReset = () => {
+        localStorage.removeItem('ranch_accusation');
+        setSelectedSuspect('');
+        setMotive('');
+        setWeapon('');
+        setSubmitted(false);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -1004,6 +1012,16 @@ const AccuseTab = ({ characters, teamName }) => {
                             <p className="font-mono text-xs text-[#5a483c] italic mt-2">
                                 "La vostra accusa è stata protocollata. Attendere il verdetto dello Sceriffo."
                             </p>
+                        </div>
+
+                        {/* Reset Button */}
+                        <div className="mt-6 pt-4 border-t-2 border-dashed border-[#5a483c] text-center">
+                            <button
+                                onClick={handleReset}
+                                className="bg-charcoal hover:bg-[#3e2b22] text-[#dcb878] border-2 border-rust px-8 py-3 font-black uppercase tracking-widest font-serif text-sm shadow-[4px_4px_0_#000] active:translate-y-1 active:shadow-none transition-all"
+                            >
+                                ↺ Modifica Accusa
+                            </button>
                         </div>
 
                     </div>
