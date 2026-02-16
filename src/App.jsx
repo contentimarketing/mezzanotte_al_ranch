@@ -591,8 +591,26 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
         verifyCode(manualCode);
     };
 
-    const verifyCode = (code) => {
-        const clue = CLUES_DB.find(c => c.code === code);
+    const verifyCode = (rawCode) => {
+        // Clean up the scanned/entered code
+        const code = String(rawCode).trim();
+
+        // Try direct match first
+        let clue = CLUES_DB.find(c => c.code === code);
+
+        // If no match, try extracting just digits (QR might have extra content)
+        if (!clue) {
+            const digitsOnly = code.replace(/\D/g, '');
+            clue = CLUES_DB.find(c => c.code === digitsOnly);
+        }
+
+        // If still no match, check if the code contains any valid clue code
+        if (!clue) {
+            clue = CLUES_DB.find(c => code.includes(c.code));
+        }
+
+        console.log('[QR Debug] Raw:', rawCode, '| Cleaned:', code, '| Found:', clue?.id);
+
         if (clue) {
             if (!unlockedClues.includes(clue.id)) {
                 onUnlock(clue.id);
@@ -606,8 +624,8 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
             setManualCode('');
             setIsScanning(false);
         } else {
-            setError("Codice errato.");
-            setTimeout(() => setError(''), 2000);
+            setError(`Codice "${code}" non valido.`);
+            setTimeout(() => setError(''), 3000);
         }
     };
 
