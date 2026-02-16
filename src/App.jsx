@@ -234,7 +234,7 @@ const FogEffect = () => (
 const Header = () => (
     <header className="fixed top-0 left-0 right-0 z-[60] bg-[#1a1614] text-paper shadow-md border-b-4 border-rust w-full">
         {/* Full width container with max-width for very large screens, but responsive padding */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-y-2">
             <div className="flex items-center gap-4">
                 <img
                     src={HORSE_ICON_URL}
@@ -243,14 +243,14 @@ const Header = () => (
                     style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 5px #00ff00' }}
                 />
                 <div>
-                    <h1 className="font-black text-xl sm:text-2xl tracking-[0.15em] uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
+                    <h1 className="font-black text-xl sm:text-3xl tracking-[0.15em] uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
                         MEZZANOTTE
                     </h1>
                     <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Caccia al Ranch</p>
                 </div>
             </div>
-            <div className="text-right border-l-2 border-rust pl-3 relative z-10 shrink-0">
-                <p className="text-[10px] sm:text-xs text-[#9c8c74] font-mono tracking-wider font-bold">CASO #1908</p>
+            <div className="text-right border-l-2 border-rust pl-3 relative z-10 shrink-0 block">
+                <p className="text-[10px] sm:text-xs text-[#781e1e] font-mono tracking-wider font-bold">CASO #1908</p>
                 <p className="text-[10px] sm:text-xs text-blood font-black font-mono uppercase">Vittima: Vane</p>
             </div>
         </div>
@@ -441,7 +441,7 @@ const StoryTab = ({ teamName }) => {
     const [openChar, setOpenChar] = useState(null);
 
     return (
-        <div className="p-4 pb-24 pt-20 space-y-8 animate-fadeIn">
+        <div className="p-4 pb-24 pt-36 space-y-8 animate-fadeIn">
 
 
             {/* Intro Card - Wood Texture */}
@@ -609,7 +609,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     <div className="relative w-full h-full flex flex-col bg-black">
 
                         {/* HTML5 QR READER container */}
-                        <div id="reader" className="w-full h-full relative overflow-hidden bg-black">
+                        <div id="reader" className="w-full h-full relative overflow-hidden bg-black [&>video]:object-cover [&>video]:w-full [&>video]:h-full">
                             {/* The library will inject the video here */}
                         </div>
 
@@ -635,7 +635,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                             <p className="mt-8 text-paper-light font-black font-serif bg-charcoal px-4 py-2 rounded-sm border border-rust uppercase tracking-widest shadow-lg skew-x-[-5deg]">Inquadra Codice</p>
                         </div>
 
-                        <div className="absolute bottom-10 left-0 w-full flex flex-col items-center gap-4 p-4 z-50">
+                        <div className="absolute bottom-10 left-0 w-full flex flex-col items-center gap-4 p-4 z-[100] bg-gradient-to-t from-black/80 to-transparent">
                             {error && (
                                 <div className="bg-blood text-paper-light p-3 rounded-sm border border-[#3e2b22] mb-4 text-center text-sm max-w-xs font-bold shadow-lg">
                                     {error}
@@ -763,8 +763,29 @@ const AccuseTab = ({ characters, teamName }) => {
     const [weapon, setWeapon] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
+    // Initialize state from local storage
+    useEffect(() => {
+        const savedAccusation = localStorage.getItem('ranch_accusation');
+        if (savedAccusation) {
+            const parsed = JSON.parse(savedAccusation);
+            setSelectedSuspect(parsed.suspectId);
+            setMotive(parsed.motive);
+            setWeapon(parsed.weapon);
+            setSubmitted(true);
+        }
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const accusationData = {
+            suspectId: selectedSuspect,
+            motive,
+            weapon,
+            submitted: true
+        };
+
+        localStorage.setItem('ranch_accusation', JSON.stringify(accusationData));
         setSubmitted(true);
     };
 
@@ -801,11 +822,11 @@ const AccuseTab = ({ characters, teamName }) => {
                         </div>
                         <div className="mt-2">
                             <span className="font-black text-rust uppercase mr-2 text-xs">Movente:</span>
-                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs">{motive}</span>
+                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs break-words whitespace-pre-wrap max-h-40 overflow-y-auto pr-2 custom-scrollbar">{motive}</span>
                         </div>
                         <div>
                             <span className="font-black text-rust uppercase mr-2 text-xs">Arma:</span>
-                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs">{weapon}</span>
+                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs break-words whitespace-pre-wrap max-h-20 overflow-y-auto pr-2 custom-scrollbar">{weapon}</span>
                         </div>
                     </div>
 
