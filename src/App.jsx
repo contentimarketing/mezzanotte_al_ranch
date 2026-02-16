@@ -1011,12 +1011,12 @@ const AccuseTab = ({ characters, teamName }) => {
                         </div>
 
                         {/* Footer Message & Stamp */}
-                        <div className="mt-2 pt-4 border-t-2 border-dashed border-[#5a483c] text-center relative">
-                            <div className="transform -rotate-12 border-4 border-blood px-4 py-2 text-blood font-black text-4xl uppercase tracking-widest opacity-80 mix-blend-multiply inline-block mb-2 pointer-events-none" style={{ fontFamily: '"Rye", serif' }}>
+                        <div className="mt-2 pt-4 border-t-2 border-dashed border-[#5a483c] text-center relative overflow-hidden flex flex-col items-center">
+                            <div className="transform -rotate-6 border-4 border-blood px-4 py-2 text-blood font-black text-3xl uppercase tracking-widest opacity-80 mix-blend-multiply mb-2 pointer-events-none" style={{ fontFamily: '"Rye", serif' }}>
                                 COLPEVOLE
                             </div>
                             <p className="font-mono text-xs text-[#5a483c] italic mt-2">
-                                "La vostra accusa è stata protocollata. Attendere il verdetto dello Sceriffo."
+                                "La vostra accusa è stata protocollata. Attendete il verdetto finale."
                             </p>
                         </div>
 
