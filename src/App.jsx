@@ -642,33 +642,53 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
             const startScanner = async () => {
                 try {
                     // Small timeout to allow render
-                    await new Promise(r => setTimeout(r, 100));
+                    await new Promise(r => setTimeout(r, 300));
 
                     if (!document.getElementById('reader')) return;
 
                     html5QrCode = new Html5Qrcode("reader");
 
                     await html5QrCode.start(
-                        { facingMode: "environment" },
+                        { facingMode: { ideal: "environment" } }, // 'ideal' instead of exact string for iOS
                         {
                             fps: 10,
                             qrbox: { width: 250, height: 250 },
-                            aspectRatio: 1.0
+                            aspectRatio: 1.0,
+                            formatsToSupport: [0] // QR_CODE only for faster scanning
                         },
                         (decodedText) => {
                             // Success callback
                             verifyCode(decodedText);
-                            // Optional: Stop scanning on success if desired, but we usually keep it open or let user close
-                            // setIsScanning(false); // Uncomment to close immediately
                         },
                         (errorMessage) => {
                             // Error callback (scanning...)
-                            // console.log(errorMessage);
                         }
                     );
+
+                    // iOS FIX: Ensure video element has playsInline and muted attributes
+                    setTimeout(() => {
+                        const readerEl = document.getElementById('reader');
+                        if (readerEl) {
+                            const videoEl = readerEl.querySelector('video');
+                            if (videoEl) {
+                                videoEl.setAttribute('playsinline', 'true');
+                                videoEl.setAttribute('muted', 'true');
+                                videoEl.playsInline = true;
+                                videoEl.muted = true;
+                            }
+                        }
+                    }, 500);
+
                 } catch (err) {
                     console.error("Error starting scanner:", err);
-                    setError("Errore fotocamera. Usa codice.");
+                    const errMsg = String(err?.message || err || '');
+                    if (errMsg.includes('Permission') || errMsg.includes('NotAllowed') || errMsg.includes('undefined') || errMsg.includes('secure')) {
+                        setError("Su iPhone, assicurati di usare Safari e che il sito sia in HTTPS.");
+                    } else if (errMsg.includes('NotFound') || errMsg.includes('Requested device not found')) {
+                        setError("Fotocamera non trovata. Usa il codice manuale.");
+                    } else {
+                        setError("Errore fotocamera. Usa codice manuale.");
+                    }
                 }
             };
 
@@ -1070,6 +1090,14 @@ export default function App() {
         const savedTeam = localStorage.getItem('ranch_team');
         if (savedTeam) {
             setUserTeam(JSON.parse(savedTeam));
+        }
+
+        // iOS FIX: Dynamic apple-touch-icon injection (fallback)
+        if (!document.querySelector('link[rel="apple-touch-icon"]')) {
+            const link = document.createElement('link');
+            link.rel = 'apple-touch-icon';
+            link.href = '/icon.png';
+            document.head.appendChild(link);
         }
     }, []);
 
