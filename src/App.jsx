@@ -54,7 +54,7 @@ const CLUES_DB = [
     {
         id: 1,
         code: '12',
-        title: 'Vecchio Volantino Strappato',
+        title: 'Il Volantino',
         type: 'Indizio Fisico',
         content: "Un vecchio poster circense trovato nella bacheca. Ritrae un mago in smoking e una donna familiare...",
         detail: "TESTO DEL POSTER: 'Il Grande Illusionista Mysterio e la sua assistente! - Lo Spettacolo Imperdibile'",
@@ -74,7 +74,7 @@ const CLUES_DB = [
     {
         id: 3,
         code: '56',
-        title: 'Lettera Legale',
+        title: 'La Lettera',
         type: 'Documento',
         content: "Una lettera spiegazzata trovata nella cassetta di pulizia dei cavalli.",
         detail: "TESTO: 'Signor Miller, domani le ruspe abbatteranno la stalla centrale. Se oppone resistenza, le porteremo via tutto, anche gli effetti personali.'",
@@ -84,7 +84,7 @@ const CLUES_DB = [
     {
         id: 4,
         code: '78',
-        title: 'Diario Manoscritto',
+        title: 'Manoscritto',
         type: 'Oggetto Personale',
         content: "Una pagina di diario nascosta nel fieno.",
         detail: "TESTO: 'Ho usato la polvere luminosa e la salvia per il rituale sacro di stasera. Gli spiriti vedranno, gli uomini temeranno.'",
@@ -243,8 +243,8 @@ const Header = () => (
                 <img
                     src={HORSE_ICON_URL}
                     alt="Skull Icon"
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-[#1a1614] object-cover shrink-0"
-                    style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 5px #00ff00' }}
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-[#67e8f9] object-cover shrink-0"
+                    style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 8px #67e8f9, 0 0 20px rgba(103, 232, 249, 0.3)' }}
                 />
                 <div>
                     <h1 className="font-black text-xl sm:text-3xl tracking-[0.15em] uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
@@ -333,8 +333,8 @@ const LoginScreen = ({ onLogin }) => {
                     <img
                         src={HORSE_ICON_URL}
                         alt="Ghost Horse Skull"
-                        className="w-32 h-32 rounded-full border-4 border-[#1a1614] object-cover bg-black"
-                        style={{ animation: 'green-fire 2s infinite alternate' }}
+                        className="w-32 h-32 rounded-full border-4 border-[#67e8f9] object-cover bg-black"
+                        style={{ animation: 'green-fire 2s infinite alternate', boxShadow: '0 0 10px #67e8f9, 0 0 25px rgba(103, 232, 249, 0.4)' }}
                     />
                 </div>
 
@@ -767,6 +767,12 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                                 </div>
                             </div>
                             <p className="mt-8 text-paper-light font-black font-serif bg-charcoal px-4 py-2 rounded-sm border border-rust uppercase tracking-widest shadow-lg skew-x-[-5deg]">Inquadra Codice</p>
+                            <button
+                                onClick={() => setIsScanning(false)}
+                                className="mt-4 pointer-events-auto bg-[#1a1614] hover:bg-[#3e2b22] text-[#dcb878] border border-[#5a3a2a] px-6 py-2 text-xs font-black uppercase tracking-widest font-serif rounded-sm shadow-md transition-all"
+                            >
+                                ✕ Chiudi Scanner
+                            </button>
                         </div>
 
                         <div className="absolute bottom-0 left-0 w-full flex flex-col items-center gap-4 p-4 pb-safe z-[200] bg-gradient-to-t from-black/90 to-transparent" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 20px), 2rem)' }}>
