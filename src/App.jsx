@@ -18,35 +18,35 @@ const CHARACTERS = [
         name: 'Lola "Red Velvet"',
         role: 'La Regina del Saloon',
         desc: "La conoscete tutti. La donna più desiderata della frontiera. Per anni si è mormorato che lei e Cyrus Vane fossero molto più che amici. Non era la solita storia d'amore: Lola era il suo architetto. Ha ripulito Vane, trasformandolo da bifolco a magnate. Ma ora che lui punta a Washington, la guarda dall'alto in basso, come un vecchio peccato da nascondere.",
-        image: '💃'
+        image: '/personaggi/lola.jpg'
     },
     {
         id: 'silenzio',
         name: '"Silenzio"',
         role: 'Il Cacciatore',
         desc: "Nessuno sa il suo vero nome. È arrivato giorni fa su un cavallo nero, con la polvere di tre stati addosso. Non ordina da bere, non parla. È chiaramente un cacciatore di taglie. Si vocifera seguisse Vane da tempo. Era qui per catturarlo... o per finirlo?",
-        image: '🤠'
+        image: '/personaggi/silenzio.jpg'
     },
     {
         id: 'buck',
         name: 'Buck Miller',
         role: 'L\'Ex Padrone',
         desc: "L'uomo che ha costruito questo posto asse dopo asse. Fino a ieri era il suo regno, oggi è un ospite sgradito. Vane gli ha preso il ranch, i cavalli e l'orgoglio per un pugno di debiti. Ha il cuore spezzato e il fegato pieno di rabbia e bourbon.",
-        image: '👴'
+        image: '/personaggi/buck-miller.jpg'
     },
     {
         id: 'corvo',
         name: 'Corvo Grigio',
         role: 'Lo Stalliere',
         desc: "Lavora nelle ombre delle scuderie. Sente cose che noi non sentiamo. Dice che sotto le stalle dormono gli spiriti dei suoi antenati e che il 'Cavallo di Fuoco' è venuto a punire l'uomo bianco. Vane lo trattava come un cane, ma Corvo Grigio non ha mai abbassato la testa.",
-        image: '🦅'
+        image: '/personaggi/corvo-grigio.jpg'
     },
     {
         id: 'higgins',
         name: 'Sceriffo Higgins',
         role: 'La Legge',
         desc: "Lo chiamano 'Iron', ferro... ma sembra più ruggine. Vane lo teneva al guinzaglio pagando i suoi vizi per chiudere un occhio. Ma forse i pagamenti erano finiti. E forse, Higgins ha deciso che era meglio un padrone morto che una carriera finita.",
-        image: '⭐'
+        image: '/personaggi/sceriffo-higgings.jpg'
     }
 ];
 
@@ -59,7 +59,7 @@ const CLUES_DB = [
         content: "Un vecchio poster circense trovato nella bacheca. Ritrae un mago in smoking e una donna familiare...",
         detail: "TESTO DEL POSTER: 'Il Grande Illusionista Mysterio e la sua assistente! - Lo Spettacolo Imperdibile'",
         imagePlaceholder: "🎪",
-        image: "/volantino.png"
+        image: "/indizi/volantino.jpg"
     },
     {
         id: 2,
@@ -69,7 +69,7 @@ const CLUES_DB = [
         content: "Una striscia di carta da telegrafo incastrata nei raggi di un carro.",
         detail: "TESTO: 'Vane ricercato per diserzione. STOP. Portalo al forte VIVO. STOP. Pagamento alla consegna.'",
         imagePlaceholder: "📜",
-        image: "https://placehold.co/600x400/262220/dcb878?text=Telegramma+Militare"
+        image: "/indizi/telegramma.jpg"
     },
     {
         id: 3,
@@ -79,7 +79,7 @@ const CLUES_DB = [
         content: "Una lettera spiegazzata trovata nella cassetta di pulizia dei cavalli.",
         detail: "TESTO: 'Signor Miller, domani le ruspe abbatteranno la stalla centrale. Se oppone resistenza, le porteremo via tutto, anche gli effetti personali.'",
         imagePlaceholder: "⚖️",
-        image: "https://placehold.co/600x400/262220/dcb878?text=Lettera+Sfratto"
+        image: "/indizi/sfratto.jpg"
     },
     {
         id: 4,
@@ -89,17 +89,17 @@ const CLUES_DB = [
         content: "Una pagina di diario nascosta nel fieno.",
         detail: "TESTO: 'Ho usato la polvere luminosa e la salvia per il rituale sacro di stasera. Gli spiriti vedranno, gli uomini temeranno.'",
         imagePlaceholder: "📓",
-        image: "https://placehold.co/600x400/262220/dcb878?text=Pagina+Diario"
+        image: "/indizi/rituale.jpg"
     },
     {
         id: 5,
         code: '90',
         title: 'Libro Mastro',
         type: 'Contabilità',
-        content: "Una pagina di contabilità strappata trovata all'ingresso della zona cena.",
+        content: "Una pagina di contabilità trovata all'ingresso della zona cena.",
         detail: "LISTA PAGAMENTI: 'Higgins - $50 (Silenzio su rissa)', 'Higgins - $100 (Ignorare confini)'. NOTA A MARGINE: 'Vane minaccia di parlare se gli chiedo altri soldi.'",
         imagePlaceholder: "💰",
-        image: "https://placehold.co/600x400/262220/dcb878?text=Libro+Mastro"
+        image: "/indizi/libro.jpg"
     }
 ];
 
@@ -135,28 +135,28 @@ const FogEffect = () => (
     <>
         <style>
             {`
-            /* Keyframes */
+            /* Keyframes - Slightly Reduced Density */
             @keyframes foglayer_01_opacity {
-                0% { opacity: .1; }
-                22% { opacity: .5; }
-                40% { opacity: .28; }
-                58% { opacity: .4; }
-                80% { opacity: .16; }
-                100% { opacity: .1; }
+                0% { opacity: .2; }
+                22% { opacity: .6; }
+                40% { opacity: .4; }
+                58% { opacity: .5; }
+                80% { opacity: .3; }
+                100% { opacity: .2; }
             }
             @keyframes foglayer_02_opacity {
                 0% { opacity: .5; }
                 25% { opacity: .2; }
                 50% { opacity: .1; }
-                80% { opacity: .3; }
+                80% { opacity: .4; }
                 100% { opacity: .5; }
             }
             @keyframes foglayer_03_opacity {
-                0% { opacity: .8; }
+                0% { opacity: .65; }
                 27% { opacity: .2; }
-                52% { opacity: .6; }
+                52% { opacity: .5; }
                 68% { opacity: .3; }
-                100% { opacity: .8; }
+                100% { opacity: .65; }
             }
             @keyframes foglayer_moveme {
                 0% { left: 0; }
@@ -176,21 +176,23 @@ const FogEffect = () => (
                 height: 100%;
                 width: 50%;
                 background-position: center center;
-                background-size: 100% 100%; /* Force stretch to match edges seamlessly */
-                background-repeat: no-repeat;
+                background-size: 50% auto; /* Dense fog effect */
+                background-repeat: repeat; /* Repeat for density */
                 background-color: transparent;
+                /* Tint to Light Teal/White - Slightly dimmer brightness */
+                filter: brightness(1.5) drop-shadow(0 0 10px #ccfbf1); 
             }
             
-            /* Layer Specifics */
+            /* Layer Specifics - Slower & Smoother */
             .fog-layer-01 {
-                animation: foglayer_01_opacity 10s linear infinite, foglayer_moveme 15s linear infinite;
+                animation: foglayer_01_opacity 12s linear infinite, foglayer_moveme 45s linear infinite;
             }
             .fog-layer-01 .fog-image-01, .fog-layer-01 .fog-image-02 {
                 background-image: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog1.png");
             }
 
             .fog-layer-02 {
-                animation: foglayer_02_opacity 21s linear infinite, foglayer_moveme 13s linear infinite;
+                animation: foglayer_02_opacity 22s linear infinite, foglayer_moveme 35s linear infinite;
             }
             .fog-layer-02 .fog-image-01, .fog-layer-02 .fog-image-02 {
                 background-image: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog2.png");
@@ -198,13 +200,14 @@ const FogEffect = () => (
 
             /* Adjust mobile speed and opacity for performance/look */
             @media (max-width: 768px) {
-                .fog-layer-01 { animation-duration: 10s, 20s; } /* Slower move on mobile */
-                .fog-layer-02 { animation-duration: 21s, 18s; }
-                .fog-layer-03 { animation-duration: 27s, 18s; }
+                .fog-layer-01 { animation-duration: 12s, 40s; }
+                .fog-layer-02 { animation-duration: 22s, 30s; }
+                .fog-layer-03 { animation-duration: 28s, 25s; }
             }
 
             .fog-layer-03 {
-                animation: foglayer_03_opacity 27s linear infinite, foglayer_moveme 13s linear infinite;
+                animation: foglayer_03_opacity 20s linear infinite, foglayer_moveme 10s linear infinite;
+                z-index: 1;
             }
             .fog-layer-03 .fog-image-01, .fog-layer-03 .fog-image-02 {
                 background-image: url("https://raw.githubusercontent.com/danielstuart14/CSS_FOG_ANIMATION/master/fog2.png");
@@ -212,7 +215,7 @@ const FogEffect = () => (
             `}
         </style>
 
-        <div className="fixed inset-0 pointer-events-none z-20 overflow-hidden opacity-60">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden w-full h-full mix-blend-screen opacity-100">
             <div className="fog-wrapper fog-layer-01">
                 <div className="fog-image-01"></div>
                 <div className="fog-image-02"></div>
@@ -232,9 +235,10 @@ const FogEffect = () => (
 // --- COMPONENTS ---
 
 const Header = () => (
-    <header className="fixed top-0 left-0 right-0 z-[60] bg-[#1a1614] text-paper shadow-md border-b-4 border-rust w-full">
-        {/* Full width container with max-width for very large screens, but responsive padding */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-y-2">
+    <header className="fixed top-0 left-0 w-full z-[100] bg-charcoal opacity-100 shadow-[0_10px_20px_rgba(0,0,0,0.7)]">
+        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]"></div>
+        {/* Full width container, removed max-w-7xl for strict full width */}
+        <div className="w-full px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-y-2 relative z-10">
             <div className="flex items-center gap-4">
                 <img
                     src={HORSE_ICON_URL}
@@ -246,11 +250,11 @@ const Header = () => (
                     <h1 className="font-black text-xl sm:text-3xl tracking-[0.15em] uppercase text-rust font-serif leading-none" style={{ textShadow: '1px 1px 0 #000' }}>
                         MEZZANOTTE
                     </h1>
-                    <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Caccia al Ranch</p>
+                    <p className="text-[10px] sm:text-xs text-[#9c8c74] font-bold uppercase tracking-[0.3em] mt-1">Orrore al Ranch</p>
                 </div>
             </div>
             <div className="text-right relative z-10 shrink-0 block">
-                <p className="text-[10px] sm:text-xs text-[#781e1e] font-mono tracking-wider font-bold">CASO #1908</p>
+                <p className="text-[10px] sm:text-xs text-[#ff7f50] font-mono tracking-wider font-bold">CASO #1908</p>
                 <p className="text-[10px] sm:text-xs text-blood font-black font-mono uppercase">Vittima: Vane</p>
             </div>
         </div>
@@ -265,20 +269,20 @@ const Nav = ({ activeTab, setActiveTab }) => {
     ];
 
     return (
-        <nav className="fixed bottom-0 left-0 w-full bg-charcoal border-t-4 border-rust pb-safe z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.6)]">
-            <div className="flex justify-around items-center h-20 relative">
-                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]"></div>
+        <nav className="fixed bottom-0 left-0 w-full z-[100] bg-charcoal opacity-100 pb-safe shadow-[0_-10px_20px_rgba(0,0,0,0.7)]">
+            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]"></div>
+            <div className="w-full max-w-md mx-auto grid grid-cols-3 h-20 relative z-10">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
                         className={`flex flex-col items-center justify-center w-full h-full transition-all duration-300 relative z-10 ${activeTab === tab.id
-                            ? 'text-paper bg-[#3a3028] border-t-4 border-paper -mt-1'
+                            ? 'text-paper bg-[#3a3028] -mt-1 shadow-inner'
                             : 'text-[#8a7a6a] hover:text-rust'
                             }`}
                     >
                         {tab.icon}
-                        <span className="text-[10px] mt-1 font-black uppercase tracking-widest font-serif">{tab.label}</span>
+                        <span className="text-[10px] sm:text-xs mt-1 font-black uppercase tracking-widest font-serif">{tab.label}</span>
                     </button>
                 ))}
             </div>
@@ -308,12 +312,7 @@ const LoginScreen = ({ onLogin }) => {
     };
 
     return (
-        <div className="min-h-screen bg-ink flex flex-col items-center justify-center p-6 text-paper relative overflow-hidden">
-
-            {/* Background */}
-            <div className="fixed inset-0 pointer-events-none z-0" style={{ background: 'linear-gradient(to bottom, #1a1614 0%, #3e2b22 100%)' }}></div>
-            <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]"></div>
-
+        <div className="flex flex-col items-center justify-center p-6 text-paper relative overflow-hidden min-h-screen">
             {/* Keyframes for Green Fire */}
             <style>
                 {`
@@ -383,7 +382,7 @@ const LoginScreen = ({ onLogin }) => {
 
 // --- MODAL COMPONENT ---
 
-const ClueModal = ({ clue, onClose }) => {
+const ClueModal = ({ clue, onClose, onImageClick }) => {
     if (!clue) return null;
 
     return (
@@ -411,7 +410,8 @@ const ClueModal = ({ clue, onClose }) => {
                         <img
                             src={clue.image}
                             alt={clue.title}
-                            className="w-full h-48 object-cover sepia-50 brightness-90 contrast-125"
+                            className="w-full h-48 object-cover sepia-50 brightness-90 contrast-125 cursor-pointer hover:scale-[1.02] transition-transform"
+                            onClick={() => onImageClick && onImageClick(clue.image)}
                         />
                     </div>
                 )}
@@ -434,29 +434,90 @@ const ClueModal = ({ clue, onClose }) => {
     );
 };
 
+const ImageModal = ({ image, onClose }) => {
+    if (!image) return null;
+    return (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm animate-fadeIn" onClick={onClose}>
+            <div className="relative max-w-full max-h-full flex flex-col items-center">
+                <img
+                    src={image}
+                    alt="Ingrandimento"
+                    className="max-w-full max-h-[80vh] object-contain border-4 border-[#b05a39] shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-sm"
+                    onClick={(e) => e.stopPropagation()}
+                />
+                <button
+                    onClick={onClose}
+                    className="mt-6 bg-[#b05a39] text-paper-light px-8 py-2 font-black uppercase tracking-widest shadow-lg border-2 border-[#5a3a2a]"
+                >
+                    Chiudi
+                </button>
+            </div>
+        </div>
+    );
+};
+
+const TextModal = ({ title, content, onClose }) => {
+    if (!content) return null;
+    return (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm animate-fadeIn" onClick={onClose}>
+            <div className="relative w-full max-w-lg bg-[#e6dcc3] p-1 shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#262220] flex flex-col max-h-[80vh]" onClick={(e) => e.stopPropagation()}>
+
+                {/* Header */}
+                <div className="bg-[#262220] p-4 flex justify-between items-center border-b-4 border-[#b05a39]">
+                    <h3 className="text-[#dcb878] font-black font-serif uppercase tracking-widest text-lg">{title}</h3>
+                    <button onClick={onClose} className="text-[#b05a39] hover:text-white transition-colors">
+                        <X size={24} />
+                    </button>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 overflow-y-auto custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] font-mono text-sm leading-relaxed text-[#262220] whitespace-pre-wrap">
+                    {content}
+                </div>
+
+                {/* Footer */}
+                <div className="p-4 bg-[#1a1614] border-t-4 border-[#262220] text-center">
+                    <button
+                        onClick={onClose}
+                        className="bg-[#b05a39] text-paper-light px-8 py-2 font-black uppercase tracking-widest shadow-lg border-2 border-[#5a3a2a] hover:bg-rust transition-colors"
+                    >
+                        Chiudi Rapporto
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 
 // --- TABS ---
 
 const StoryTab = ({ teamName }) => {
     const [openChar, setOpenChar] = useState(null);
+    const [viewingImage, setViewingImage] = useState(null);
 
     return (
-        <div className="p-4 pb-24 pt-36 space-y-8 animate-fadeIn">
+        <div className="space-y-8 animate-fadeIn">
 
+            {viewingImage && (
+                <ImageModal image={viewingImage} onClose={() => setViewingImage(null)} />
+            )}
 
             {/* Intro Card - Wood Texture */}
             <div className="p-6 rounded-sm shadow-[8px_8px_0_#000] border-4 border-[#262220] relative"
                 style={WOOD_STYLE}>
 
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blood text-paper-light px-6 py-2 text-sm font-black tracking-[0.2em] uppercase shadow-[3px_3px_0_#000] border-2 border-[#262220] skew-x-[-10deg] whitespace-nowrap">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#b05a39] text-paper-light px-6 py-2 text-sm font-black tracking-[0.2em] uppercase shadow-[3px_3px_0_#000] border-2 border-[#262220] skew-x-[-10deg] whitespace-nowrap">
                     Il Crimine
                 </div>
                 <h3 className="font-black text-4xl mb-4 text-[#dcb878] text-center mt-4 border-b-4 border-[#5a3a2a] pb-2 font-serif" style={{ textShadow: '1px 1px 0 #000' }}>
                     MEZZANOTTE AL RANCH
                 </h3>
                 {/* Team Subtitle */}
-                <div className="bg-[#1a1614] text-[#dcb878] inline-block px-4 py-1 mb-6 text-[10px] font-black uppercase tracking-[0.2em] transform -rotate-2 border-2 border-[#5a3a2a] shadow-sm">
-                    Caccia aperta per: {teamName}
+                <div className="w-full text-center mb-6">
+                    <p className="text-[#dcb878] text-xs font-black uppercase tracking-[0.2em] font-serif">
+                        Caccia aperta per: {teamName}
+                    </p>
                 </div>
                 <div className="bg-[#1a1614] p-4 transform -rotate-1 shadow-sm mb-4 border border-[#5a3a2a]">
                     <p className="font-bold italic text-[#e6dcc3] text-sm leading-relaxed text-justify font-serif">
@@ -471,15 +532,25 @@ const StoryTab = ({ teamName }) => {
             </div>
 
             {/* Suspects Grid */}
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {CHARACTERS.map(char => (
                     <div key={char.id} className="border-4 border-[#262220] shadow-[5px_5px_0_#000] overflow-hidden group" style={WOOD_STYLE}>
-                        <button
+                        <div
+                            className="w-full flex items-center text-left cursor-pointer"
                             onClick={() => setOpenChar(openChar === char.id ? null : char.id)}
-                            className="w-full flex items-center text-left"
                         >
-                            <div className="w-20 h-20 bg-[#1a1614] flex-shrink-0 border-r-4 border-[#262220] flex items-center justify-center">
-                                <span className="text-4xl filter sepia contrast-125">{char.image}</span>
+                            <div
+                                className="w-24 h-24 bg-[#1a1614] flex-shrink-0 border-r-4 border-[#262220] flex items-center justify-center overflow-hidden relative group-hover:brightness-110 transition-all"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setViewingImage(char.image);
+                                }}
+                            >
+                                <img src={char.image} alt={char.name} className="w-full h-full object-cover filter sepia contrast-125 hover:scale-110 transition-transform duration-500" />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all"></div>
+                                <div className="absolute bottom-1 right-1 bg-black/50 p-1 rounded-full border border-[#dcb878]">
+                                    <Search size={12} className="text-[#dcb878]" />
+                                </div>
                             </div>
                             <div className="p-4 flex-grow flex items-center justify-between">
                                 <h4 className="font-black text-xl uppercase tracking-wider text-[#dcb878] font-serif pr-2 group-hover:text-rust transition-colors">
@@ -487,7 +558,7 @@ const StoryTab = ({ teamName }) => {
                                 </h4>
                                 {openChar === char.id ? <ChevronUp className="text-rust" /> : <ChevronDown className="text-[#5a3a2a]" />}
                             </div>
-                        </button>
+                        </div>
 
                         {openChar === char.id && (
                             <div className="p-4 bg-[rgba(0,0,0,0.3)] border-t-4 border-[#262220] text-[#e6dcc3] text-sm font-mono leading-relaxed animate-slideDown">
@@ -508,6 +579,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
     const [error, setError] = useState('');
     const [notification, setNotification] = useState(null);
     const [selectedClue, setSelectedClue] = useState(null);
+    const [viewingImage, setViewingImage] = useState(null);
     const videoRef = useRef(null);
     const streamRef = useRef(null);
 
@@ -596,11 +668,15 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
     }, [isScanning]);
 
     return (
-        <div className="p-4 pb-24 min-h-screen relative">
+        <div className="space-y-8 animate-fadeIn">
 
             {/* Modal for Clue Details */}
             {selectedClue && (
-                <ClueModal clue={selectedClue} onClose={() => setSelectedClue(null)} />
+                <ClueModal clue={selectedClue} onClose={() => setSelectedClue(null)} onImageClick={(img) => setViewingImage(img)} />
+            )}
+
+            {viewingImage && (
+                <ImageModal image={viewingImage} onClose={() => setViewingImage(null)} />
             )}
 
             {/* Scanner Overlay - Sepia/Old Photo Style */}
@@ -664,7 +740,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
 
                         <button
                             onClick={() => setIsScanning(true)}
-                            className="w-full bg-rust hover:bg-[#964b2e] text-paper-light py-4 px-4 rounded-sm font-serif uppercase tracking-[0.2em] font-black flex items-center justify-center gap-3 transition-all shadow-[4px_4px_0_#262220] active:translate-y-1 active:shadow-[2px_2px_0_#262220] border-4 border-charcoal mb-8"
+                            className="w-full bg-[#b05a39] hover:bg-[#8a462c] text-paper-light py-4 px-4 rounded-sm font-serif uppercase tracking-[0.2em] font-black flex items-center justify-center gap-3 transition-all shadow-[4px_4px_0_#262220] active:translate-y-1 active:shadow-[2px_2px_0_#262220] border-4 border-charcoal mb-8"
                         >
                             <Camera size={28} strokeWidth={3} />
                             Apri Scanner
@@ -702,7 +778,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                         Reperti
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                         {CLUES_DB.map((clue) => {
                             const isUnlocked = unlockedClues.includes(clue.id);
                             return (
@@ -789,60 +865,97 @@ const AccuseTab = ({ characters, teamName }) => {
         setSubmitted(true);
     };
 
+    const [textModalOpen, setTextModalOpen] = useState(null); // { title: '', content: '' }
+
     if (submitted) {
         const suspectDetails = characters.find(c => c.id === selectedSuspect);
 
+
         return (
-            <div className="p-4 pb-24 pt-20 flex flex-col items-center min-h-screen text-center animate-fadeIn relative overflow-hidden bg-[#1a1614]">
-                <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]"></div>
+            <div className="flex flex-col items-center justify-center animate-fadeIn relative overflow-hidden bg-transparent pb-12 pt-12">
 
-                {/* WANTED POSTER */}
-                <div className="relative w-full max-w-sm p-6 shadow-[10px_10px_0_#262220] border-4 border-[#262220] text-center transform rotate-1 relative z-10"
-                    style={WOOD_STYLE}>
-                    {/* Header */}
-                    <div className="border-b-4 border-[#5a3a2a] pb-4 mb-6">
-                        <h1 className="font-black text-5xl text-[#dcb878] tracking-widest uppercase font-serif" style={{ textShadow: '2px 2px 0 #000' }}>WANTED</h1>
-                        <p className="font-bold font-mono text-blood text-sm tracking-[0.5em] uppercase mt-2">Dead or Alive</p>
+                {textModalOpen && (
+                    <TextModal
+                        title={textModalOpen.title}
+                        content={textModalOpen.content}
+                        onClose={() => setTextModalOpen(null)}
+                    />
+                )}
+
+                {/* RESULT CARD - "CONFIDENTIAL" FILE STYLE */}
+                <div className="relative w-full max-w-md p-1 bg-[#e6dcc3] shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform -rotate-1">
+
+                    {/* Paper Texture Overlay */}
+                    <div className="absolute inset-0 pointer-events-none opacity-50 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] mix-blend-multiply z-10"></div>
+
+                    {/* Folder Tab */}
+                    <div className="absolute -top-6 left-0 bg-[#e6dcc3] px-6 py-2 rounded-t-lg border-t-2 border-l-2 border-r-2 border-[#cbbca0] font-mono text-xs font-bold text-[#5a483c] tracking-widest uppercase z-0">
+                        Rapporto #001-{new Date().getFullYear()}
                     </div>
 
-                    {/* Suspect */}
-                    <div className="bg-[#1a1614] p-2 inline-block shadow-[5px_5px_0_#000] mb-4 transform -rotate-1 border border-[#5a3a2a]">
-                        <div className="w-32 h-32 bg-[#2c1a0e] flex items-center justify-center border-2 border-[#5a3a2a] relative overflow-hidden">
-                            <span className="text-7xl filter sepia contrast-125 drop-shadow-lg">{suspectDetails?.image}</span>
+                    {/* Main Content Area */}
+                    <div className="relative z-20 border-2 border-[#cbbca0] p-6 flex flex-col bg-transparent">
+
+                        {/* Title */}
+                        <h1 className="font-black text-3xl text-[#262220] uppercase font-serif mb-6 border-b-4 border-[#262220] pb-2 text-left" style={{ letterSpacing: '0.1em' }}>
+                            Mandato d'Arresto
+                        </h1>
+
+                        {/* Suspect Photo & Name */}
+                        <div className="flex items-start mb-6 gap-4">
+                            <div className="w-24 h-24 bg-[#262220] p-1 shadow-md transform -rotate-2 flex-shrink-0">
+                                <img src={suspectDetails?.image} alt="Suspect" className="w-full h-full object-cover filter sepia contrast-125" />
+                            </div>
+                            <div className="text-left">
+                                <span className="block font-mono text-xs text-[#5a483c] uppercase mb-1">Sospettato Principale</span>
+                                <h2 className="font-serif font-black text-2xl text-[#b05a39] uppercase leading-none">{suspectDetails?.name}</h2>
+                            </div>
                         </div>
+
+                        {/* Motive Section */}
+                        <div className="mb-4 text-left">
+                            <div className="bg-[#262220] text-[#e6dcc3] text-xs font-bold uppercase px-2 py-1 inline-block mb-1">Movente Identificato</div>
+                            <div className="bg-[#fffdf5] border border-[#cbbca0] p-3 shadow-inner relative group cursor-pointer hover:border-[#b05a39] transition-colors" onClick={() => setTextModalOpen({ title: 'Movente', content: motive })}>
+                                <p className="font-mono text-sm text-[#262220] line-clamp-3 leading-relaxed">
+                                    {motive}
+                                </p>
+                                <div className="mt-2 text-[10px] font-bold text-[#b05a39] uppercase tracking-wider flex items-center gap-1">
+                                    <FileText size={12} /> Clicca per leggere rapporto completo
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Weapon Section */}
+                        <div className="mb-6 text-left">
+                            <div className="bg-[#262220] text-[#e6dcc3] text-xs font-bold uppercase px-2 py-1 inline-block mb-1">Arma del Delitto</div>
+                            <div className="bg-[#fffdf5] border border-[#cbbca0] p-3 shadow-inner relative group cursor-pointer hover:border-[#b05a39] transition-colors" onClick={() => setTextModalOpen({ title: 'Arma', content: weapon })}>
+                                <p className="font-mono text-sm text-[#262220] line-clamp-2 leading-relaxed">
+                                    {weapon}
+                                </p>
+                                <div className="mt-2 text-[10px] font-bold text-[#b05a39] uppercase tracking-wider flex items-center gap-1">
+                                    <FileText size={12} /> Clicca per leggere rapporto completo
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer Message & Stamp */}
+                        <div className="mt-2 pt-4 border-t-2 border-dashed border-[#5a483c] text-center relative">
+                            <div className="transform -rotate-12 border-4 border-blood px-4 py-2 text-blood font-black text-4xl uppercase tracking-widest opacity-80 mix-blend-multiply inline-block mb-2 pointer-events-none" style={{ fontFamily: '"Rye", serif' }}>
+                                COLPEVOLE
+                            </div>
+                            <p className="font-mono text-xs text-[#5a483c] italic mt-2">
+                                "La vostra accusa è stata protocollata. Attendere il verdetto dello Sceriffo."
+                            </p>
+                        </div>
+
                     </div>
-                    <h2 className="font-black text-2xl text-[#dcb878] uppercase font-serif tracking-wider mb-6 underline decoration-rust decoration-4 underline-offset-4" style={{ textShadow: '1px 1px 0 #000' }}>
-                        {suspectDetails?.name}
-                    </h2>
-
-                    {/* Details */}
-                    <div className="text-left space-y-3 bg-[#1a1614] p-4 border-2 border-[#5a3a2a] shadow-inner font-mono text-sm relative">
-                        <div className="absolute -top-3 -left-3 bg-blood text-paper px-2 py-1 text-xs font-bold uppercase tracking-wider transform -skew-x-12 border border-[#262220]">
-                            Dettagli Crimine
-                        </div>
-                        <div className="mt-2">
-                            <span className="font-black text-rust uppercase mr-2 text-xs">Movente:</span>
-                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs break-words whitespace-pre-wrap max-h-40 overflow-y-auto pr-2 custom-scrollbar">{motive}</span>
-                        </div>
-                        <div>
-                            <span className="font-black text-rust uppercase mr-2 text-xs">Arma:</span>
-                            <span className="font-bold text-[#e6dcc3] block border-b border-dashed border-[#5a3a2a] pb-1 text-xs break-words whitespace-pre-wrap max-h-20 overflow-y-auto pr-2 custom-scrollbar">{weapon}</span>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div className="mt-12 text-center relative z-10 w-full px-8">
-                    <p className="text-paper-light font-mono text-xs bg-charcoal p-3 shadow-[4px_4px_0_#b05a39] border border-rust leading-relaxed">
-                        "La vostra accusa è stata registrata. Se avete ragione, sarete ricompensati. Se avete torto... il deserto è grande."
-                    </p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="p-4 pb-24 relative">
+        <div className="space-y-8 animate-fadeIn">
             <div className="border-4 border-[#262220] p-2 shadow-[10px_10px_0_#1a1614] relative overflow-hidden"
                 style={WOOD_STYLE}>
 
@@ -857,7 +970,7 @@ const AccuseTab = ({ characters, teamName }) => {
                             <label className="block font-serif text-[#dcb878] font-black mb-4 uppercase text-sm tracking-[0.2em] border-b-4 border-rust pb-2 inline-block">
                                 L'Assassino
                             </label>
-                            <div className="grid grid-cols-1 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                                 {characters.map(char => (
                                     <button
                                         key={char.id}
@@ -868,7 +981,7 @@ const AccuseTab = ({ characters, teamName }) => {
                                             : 'bg-[#1a1614] border-[#5a3a2a] text-[#9c8c74] hover:border-rust hover:text-rust'
                                             }`}
                                     >
-                                        <span className="text-2xl mr-4 filter sepia">{char.image}</span>
+                                        <img src={char.image} alt={char.name} className="w-12 h-12 mr-4 object-cover border border-[#5a3a2a] filter sepia" />
                                         <span className="font-black uppercase tracking-wider font-serif">{char.name}</span>
                                     </button>
                                 ))}
@@ -956,36 +1069,49 @@ export default function App() {
         localStorage.setItem('ranch_team', JSON.stringify(team));
     };
 
-    if (!userTeam) {
-        return <LoginScreen onLogin={handleLogin} />;
-    }
 
     return (
-        <div className="min-h-screen bg-ink text-paper font-sans selection:bg-rust selection:text-paper-light overflow-x-hidden">
-            {/* Main Comic Panel Background with Muted Sunset Gradient */}
-            <div className="fixed inset-0 pointer-events-none z-0" style={{ background: 'linear-gradient(to bottom, #1a1614 0%, #3e2b22 50%, #5a3a2a 100%)' }}></div>
+        <>
+            {/* === LEVEL 1: GLOBAL BACKGROUND (FIXED & FULL SCREEN) === */}
+            {/* Outside everything. No max-w. No padding. */}
+            <div className="fixed inset-0 z-[-1] w-full h-full overflow-hidden bg-[#1a1614]">
+                {/* A. Wood Texture (Slight opacity) */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-30 mix-blend-overlay"></div>
 
-            {/* Comic Texture Overlays for Opaque Feel */}
-            <div className="fixed inset-0 pointer-events-none opacity-30 z-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay"></div>
-            <div className="fixed inset-0 pointer-events-none opacity-20 z-0 bg-[url('https://www.transparenttextures.com/patterns/halftone.png')]"></div>
-            <div className="fixed inset-0 pointer-events-none opacity-10 z-0 bg-[url('https://www.transparenttextures.com/patterns/crissxcross.png')] mix-blend-multiply"></div>
+                {/* B. Spectral Color (Dark Teal) - Covers the wood */}
+                <div className="absolute inset-0 bg-[#0f2e2e]/80 mix-blend-multiply"></div>
 
+                {/* C. Atmospheric Effect (Fog/Rain) - Moved to Foreground */}
+                {/* <FogEffect />  (Previously here) */}
+            </div>
 
-            {/* Vignette & Border */}
-            <div className="fixed inset-0 pointer-events-none z-10 bg-[radial-gradient(circle_at_center,transparent_20%,#1a1614_100%)] opacity-80"></div>
-            <div className="fixed inset-0 pointer-events-none z-50 border-[12px] border-charcoal"></div>
+            {/* === LEVEL 2: CONTENT (CENTERED) === */}
+            <div className="relative z-10 w-full min-h-screen flex flex-col font-sans text-[#e6dcc3]">
+                {!userTeam ? (
+                    <LoginScreen onLogin={handleLogin} />
+                ) : (
+                    <>
+                        {/* Header: Full width visual, internally centered */}
+                        <Header />
 
+                        {/* Main Content: Apply width limit for text here */}
+                        <main className="flex-grow w-full max-w-md mx-auto px-6 pt-32 pb-32">
+                            {/* Tabs render ONLY text/buttons. No full-screen backgrounds. */}
+                            {activeTab === 'story' && <StoryTab teamName={userTeam.name} />}
+                            {activeTab === 'clues' && <CluesTab unlockedClues={unlockedClues} onUnlock={handleUnlock} />}
+                            {activeTab === 'accuse' && <AccuseTab characters={CHARACTERS} teamName={userTeam.name} />}
+                        </main>
 
-            <Header />
+                        {/* Footer: Full width visual */}
+                        <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
+                    </>
+                )}
+            </div>
 
-            <main className="relative z-20 max-w-md mx-auto min-h-screen shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-transparent pb-20">
-                {activeTab === 'story' && <StoryTab teamName={userTeam.name} />}
-                {activeTab === 'clues' && <CluesTab unlockedClues={unlockedClues} onUnlock={handleUnlock} />}
-                {activeTab === 'accuse' && <AccuseTab characters={CHARACTERS} teamName={userTeam.name} />}
-            </main>
-
-            <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
-            <FogEffect />
-        </div>
+            {/* === LEVEL 3: FOREGROUND ATMOSPHERE (OVERLAY) === */}
+            <div className="fixed inset-0 z-50 pointer-events-none mix-blend-screen opacity-40">
+                <FogEffect />
+            </div>
+        </>
     );
 }
