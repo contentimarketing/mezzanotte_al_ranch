@@ -633,61 +633,70 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
         setSelectedClue(clue);
     };
 
-    // --- HTML5 QR Scanner Logic ---
+    // --- HTML5 QR Scanner Logic (iOS-Compatible) ---
     useEffect(() => {
         let html5QrCode = null;
+        let localStream = null;
 
         if (isScanning) {
-            // Need a small delay to ensure the DOM element exists
             const startScanner = async () => {
                 try {
-                    // Small timeout to allow render
-                    await new Promise(r => setTimeout(r, 300));
+                    // 1. Pre-acquire camera stream natively for video attribute control
+                    localStream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'environment' }
+                    });
+                    streamRef.current = localStream;
 
+                    // 2. If we have a video ref, attach stream directly
+                    if (videoRef.current) {
+                        videoRef.current.srcObject = localStream;
+                    }
+
+                    // 3. Wait for DOM to settle
+                    await new Promise(r => setTimeout(r, 500));
                     if (!document.getElementById('reader')) return;
 
+                    // 4. Start html5-qrcode scanner
                     html5QrCode = new Html5Qrcode("reader");
-
                     await html5QrCode.start(
-                        { facingMode: { ideal: "environment" } }, // 'ideal' instead of exact string for iOS
+                        { facingMode: 'environment' },
                         {
                             fps: 10,
                             qrbox: { width: 250, height: 250 },
-                            aspectRatio: 1.0,
-                            formatsToSupport: [0] // QR_CODE only for faster scanning
+                            aspectRatio: 1.0
                         },
                         (decodedText) => {
-                            // Success callback
                             verifyCode(decodedText);
                         },
-                        (errorMessage) => {
-                            // Error callback (scanning...)
-                        }
+                        () => { /* scanning... */ }
                     );
 
-                    // iOS FIX: Ensure video element has playsInline and muted attributes
-                    setTimeout(() => {
-                        const readerEl = document.getElementById('reader');
-                        if (readerEl) {
-                            const videoEl = readerEl.querySelector('video');
-                            if (videoEl) {
-                                videoEl.setAttribute('playsinline', 'true');
-                                videoEl.setAttribute('muted', 'true');
-                                videoEl.playsInline = true;
-                                videoEl.muted = true;
-                            }
-                        }
-                    }, 500);
+                    // 5. iOS FIX: Force playsInline/muted on ALL video elements the library creates
+                    const readerEl = document.getElementById('reader');
+                    if (readerEl) {
+                        const videos = readerEl.querySelectorAll('video');
+                        videos.forEach(v => {
+                            v.setAttribute('playsinline', 'true');
+                            v.setAttribute('webkit-playsinline', 'true');
+                            v.setAttribute('muted', 'true');
+                            v.setAttribute('autoplay', 'true');
+                            v.playsInline = true;
+                            v.muted = true;
+                            v.autoplay = true;
+                        });
+                    }
 
                 } catch (err) {
                     console.error("Error starting scanner:", err);
-                    const errMsg = String(err?.message || err || '');
-                    if (errMsg.includes('Permission') || errMsg.includes('NotAllowed') || errMsg.includes('undefined') || errMsg.includes('secure')) {
-                        setError("Su iPhone, assicurati di usare Safari e che il sito sia in HTTPS.");
-                    } else if (errMsg.includes('NotFound') || errMsg.includes('Requested device not found')) {
+                    const errMsg = String(err?.message || err?.name || err || '');
+                    if (errMsg.includes('Permission') || errMsg.includes('NotAllowed') || errMsg.includes('denied')) {
+                        setError("Permesso fotocamera negato. Su iPhone, usa Safari e HTTPS.");
+                    } else if (errMsg.includes('NotFound') || errMsg.includes('DevicesNotFound')) {
                         setError("Fotocamera non trovata. Usa il codice manuale.");
+                    } else if (errMsg.includes('NotReadable') || errMsg.includes('Could not start')) {
+                        setError("Fotocamera occupata. Chiudi altre app e riprova.");
                     } else {
-                        setError("Errore fotocamera. Usa codice manuale.");
+                        setError("Errore fotocamera. Su iPhone usa Safari + HTTPS.");
                     }
                 }
             };
@@ -695,12 +704,23 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
             startScanner();
         }
 
-        // Cleanup
+        // Cleanup: stop scanner AND all camera tracks
         return () => {
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.stop().then(() => {
                     html5QrCode.clear();
                 }).catch(err => console.error("Error stopping scanner", err));
+            }
+            // Stop all camera tracks to release the hardware
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+                streamRef.current = null;
+            }
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+            if (videoRef.current) {
+                videoRef.current.srcObject = null;
             }
         };
     }, [isScanning]);
@@ -749,7 +769,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                             <p className="mt-8 text-paper-light font-black font-serif bg-charcoal px-4 py-2 rounded-sm border border-rust uppercase tracking-widest shadow-lg skew-x-[-5deg]">Inquadra Codice</p>
                         </div>
 
-                        <div className="absolute bottom-10 left-0 w-full flex flex-col items-center gap-4 p-4 z-[100] bg-gradient-to-t from-black/80 to-transparent">
+                        <div className="absolute bottom-0 left-0 w-full flex flex-col items-center gap-4 p-4 pb-safe z-[200] bg-gradient-to-t from-black/90 to-transparent" style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 20px), 2rem)' }}>
                             {error && (
                                 <div className="bg-blood text-paper-light p-3 rounded-sm border border-[#3e2b22] mb-4 text-center text-sm max-w-xs font-bold shadow-lg">
                                     {error}
