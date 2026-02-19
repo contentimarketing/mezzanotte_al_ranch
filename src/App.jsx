@@ -636,27 +636,36 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
     // --- HTML5 QR Scanner Logic (iOS-Compatible) ---
     useEffect(() => {
         let html5QrCode = null;
-        let localStream = null;
+        let patchedCreateElement = false;
+        const originalCreateElement = document.createElement.bind(document);
 
         if (isScanning) {
             const startScanner = async () => {
                 try {
-                    // 1. Pre-acquire camera stream natively for video attribute control
-                    localStream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'environment' }
-                    });
-                    streamRef.current = localStream;
-
-                    // 2. If we have a video ref, attach stream directly
-                    if (videoRef.current) {
-                        videoRef.current.srcObject = localStream;
-                    }
-
-                    // 3. Wait for DOM to settle
-                    await new Promise(r => setTimeout(r, 500));
+                    // 1. Wait for DOM to settle
+                    await new Promise(r => setTimeout(r, 300));
                     if (!document.getElementById('reader')) return;
 
-                    // 4. Start html5-qrcode scanner
+                    // 2. iOS FIX: Monkey-patch createElement to inject playsinline
+                    //    BEFORE the library creates any <video> elements.
+                    //    On iOS Safari, playsinline must be set at creation time,
+                    //    not after the video starts playing.
+                    patchedCreateElement = true;
+                    document.createElement = function (tagName, options) {
+                        const el = originalCreateElement(tagName, options);
+                        if (tagName.toLowerCase() === 'video') {
+                            el.setAttribute('playsinline', 'true');
+                            el.setAttribute('webkit-playsinline', 'true');
+                            el.setAttribute('muted', '');
+                            el.setAttribute('autoplay', '');
+                            el.playsInline = true;
+                            el.muted = true;
+                        }
+                        return el;
+                    };
+
+                    // 3. Start html5-qrcode scanner — let it manage its own getUserMedia stream.
+                    //    Do NOT call getUserMedia manually; iOS cannot handle two concurrent streams.
                     html5QrCode = new Html5Qrcode("reader");
                     await html5QrCode.start(
                         { facingMode: 'environment' },
@@ -671,22 +680,26 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                         () => { /* scanning... */ }
                     );
 
-                    // 5. iOS FIX: Force playsInline/muted on ALL video elements the library creates
+                    // 4. Restore original createElement now that scanner is running
+                    document.createElement = originalCreateElement;
+                    patchedCreateElement = false;
+
+                    // 5. Extra safety: also patch any video the library already created
                     const readerEl = document.getElementById('reader');
                     if (readerEl) {
                         const videos = readerEl.querySelectorAll('video');
                         videos.forEach(v => {
                             v.setAttribute('playsinline', 'true');
                             v.setAttribute('webkit-playsinline', 'true');
-                            v.setAttribute('muted', 'true');
-                            v.setAttribute('autoplay', 'true');
                             v.playsInline = true;
-                            v.muted = true;
-                            v.autoplay = true;
                         });
                     }
 
                 } catch (err) {
+                    // Restore createElement if we errored mid-patch
+                    if (patchedCreateElement) {
+                        document.createElement = originalCreateElement;
+                    }
                     console.error("Error starting scanner:", err);
                     const errMsg = String(err?.message || err?.name || err || '');
                     if (errMsg.includes('Permission') || errMsg.includes('NotAllowed') || errMsg.includes('denied')) {
@@ -704,23 +717,16 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
             startScanner();
         }
 
-        // Cleanup: stop scanner AND all camera tracks
+        // Cleanup: stop scanner (it manages its own camera stream internally)
         return () => {
+            // Restore createElement if cleanup runs while scanner is starting
+            if (patchedCreateElement) {
+                document.createElement = originalCreateElement;
+            }
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.stop().then(() => {
                     html5QrCode.clear();
                 }).catch(err => console.error("Error stopping scanner", err));
-            }
-            // Stop all camera tracks to release the hardware
-            if (streamRef.current) {
-                streamRef.current.getTracks().forEach(track => track.stop());
-                streamRef.current = null;
-            }
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-            }
-            if (videoRef.current) {
-                videoRef.current.srcObject = null;
             }
         };
     }, [isScanning]);
