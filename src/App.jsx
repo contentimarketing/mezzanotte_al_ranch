@@ -668,7 +668,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     //    Do NOT call getUserMedia manually; iOS cannot handle two concurrent streams.
                     html5QrCode = new Html5Qrcode("reader");
                     await html5QrCode.start(
-                        { facingMode: 'environment', focusMode: 'continuous' },
+                        { facingMode: 'environment' },
                         {
                             fps: 10,
                             qrbox: (viewfinderWidth, viewfinderHeight) => ({
@@ -683,7 +683,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                         () => { /* scanning... */ }
                     );
 
-                    // iOS 26+ specific bug workaround: force video constraints after starting
+                    // iOS specific bug workaround: force video constraints after starting
                     try {
                         if (html5QrCode.applyVideoConstraints) {
                             await html5QrCode.applyVideoConstraints({ focusMode: "continuous" });
