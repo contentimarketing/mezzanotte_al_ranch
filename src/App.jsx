@@ -668,19 +668,13 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     //    Do NOT call getUserMedia manually; iOS cannot handle two concurrent streams.
                     html5QrCode = new Html5Qrcode("reader");
 
-                    const vw = window.innerWidth;
-                    const vh = window.innerHeight;
-
                     await html5QrCode.start(
                         { facingMode: 'environment' },
                         {
                             fps: 10,
-                            // Allineamento perfetto tra canvas di decodifica e video di iOS (risolve i tagli visivi)
-                            aspectRatio: vw / vh,
-                            // Sfrutta il BarcodeDetector nativo velocissimo di iOS 17+
-                            experimentalFeatures: {
-                                useBarCodeDetectorIfSupported: true
-                            }
+                            qrbox: { width: 250, height: 250 },
+                            aspectRatio: 1.0,
+                            disableFlip: false
                         },
                         (decodedText) => {
                             verifyCode(decodedText);
