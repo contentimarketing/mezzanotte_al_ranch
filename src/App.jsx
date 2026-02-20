@@ -669,11 +669,21 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     html5QrCode = new Html5Qrcode("reader");
 
                     await html5QrCode.start(
-                        { facingMode: 'environment' },
+                        {
+                            facingMode: 'environment',
+                            // Richiediamo una risoluzione standard ideale, ma senza forzarla in modo bloccante (ideal vs exact)
+                            width: { ideal: 1280 },
+                            height: { ideal: 720 }
+                        },
                         {
                             fps: 10,
-                            qrbox: { width: 250, height: 250 },
-                            aspectRatio: 1.0,
+                            // Un qrbox calcolato dinamicamente è più sicuro del full-frame su alcuni Android
+                            // Garantiamo un minimo di 200px per non far crashare la zona di crop
+                            qrbox: (viewfinderWidth, viewfinderHeight) => {
+                                const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+                                const boxSize = Math.max(200, Math.floor(minEdge * 0.7));
+                                return { width: boxSize, height: boxSize };
+                            },
                             disableFlip: false
                         },
                         (decodedText) => {
