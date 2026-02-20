@@ -667,12 +667,20 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     // 3. Start html5-qrcode scanner — let it manage its own getUserMedia stream.
                     //    Do NOT call getUserMedia manually; iOS cannot handle two concurrent streams.
                     html5QrCode = new Html5Qrcode("reader");
+
+                    const vw = window.innerWidth;
+                    const vh = window.innerHeight;
+
                     await html5QrCode.start(
                         { facingMode: 'environment' },
                         {
-                            fps: 5
-                            // Rimosso qrbox e aspectRatio per analizzare l'intero frame
-                            // Questo previene i disallineamenti dell'area di scansione causati dal CSS object-cover
+                            fps: 10,
+                            // Allineamento perfetto tra canvas di decodifica e video di iOS (risolve i tagli visivi)
+                            aspectRatio: vw / vh,
+                            // Sfrutta il BarcodeDetector nativo velocissimo di iOS 17+
+                            experimentalFeatures: {
+                                useBarCodeDetectorIfSupported: true
+                            }
                         },
                         (decodedText) => {
                             verifyCode(decodedText);
