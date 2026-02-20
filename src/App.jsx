@@ -693,24 +693,32 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     );
 
                     // iOS specific bug workaround: force video constraints after starting
-                    try {
-                        if (html5QrCode.applyVideoConstraints) {
-                            await html5QrCode.applyVideoConstraints({ focusMode: "continuous" }).catch(() => { });
+                    setTimeout(async () => {
+                        try {
+                            if (html5QrCode.applyVideoConstraints) {
+                                await html5QrCode.applyVideoConstraints({ focusMode: "continuous" }).catch(e => console.warn("applyVideoConstraints inner error", e));
+                            }
+                        } catch (e) {
+                            console.warn("[QR Debug] applyVideoConstraints outer error:", e);
                         }
 
                         // Fallback: Apply directly to the video track
-                        const videoElement = document.querySelector('#reader video');
-                        const track = videoElement?.srcObject?.getVideoTracks()[0];
-                        if (track?.applyConstraints) {
-                            await track.applyConstraints({
-                                advanced: [{ focusMode: "continuous" }]
-                            }).catch(() => {
-                                return track.applyConstraints({ focusMode: "continuous" });
-                            });
+                        try {
+                            const videoElement = document.querySelector('#reader video');
+                            const track = videoElement?.srcObject?.getVideoTracks()[0];
+                            if (track && track.applyConstraints) {
+                                // Try advanced constraints
+                                await track.applyConstraints({
+                                    advanced: [{ focusMode: "continuous" }]
+                                }).catch(async () => {
+                                    // Try basic constraints if advanced fails
+                                    await track.applyConstraints({ focusMode: "continuous" }).catch(e => console.warn("track basic constraints error", e));
+                                });
+                            }
+                        } catch (e) {
+                            console.warn("[QR Debug] track constraints error:", e);
                         }
-                    } catch (e) {
-                        console.warn("[QR Debug] applyVideoConstraints error:", e);
-                    }
+                    }, 500); // Wait for the camera to fully initialize before forcing focus
 
                     // 4. Restore original createElement now that scanner is running
                     document.createElement = originalCreateElement;
