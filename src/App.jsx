@@ -670,12 +670,9 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     await html5QrCode.start(
                         { facingMode: 'environment' },
                         {
-                            fps: 10,
-                            qrbox: (viewfinderWidth, viewfinderHeight) => ({
-                                width: Math.min(250, viewfinderWidth * 0.7),
-                                height: Math.min(250, viewfinderHeight * 0.7)
-                            }),
-                            aspectRatio: 1.0
+                            fps: 5
+                            // Rimosso qrbox e aspectRatio per analizzare l'intero frame
+                            // Questo previene i disallineamenti dell'area di scansione causati dal CSS object-cover
                         },
                         (decodedText) => {
                             verifyCode(decodedText);
@@ -686,7 +683,18 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                     // iOS specific bug workaround: force video constraints after starting
                     try {
                         if (html5QrCode.applyVideoConstraints) {
-                            await html5QrCode.applyVideoConstraints({ focusMode: "continuous" });
+                            await html5QrCode.applyVideoConstraints({ focusMode: "continuous" }).catch(() => { });
+                        }
+
+                        // Fallback: Apply directly to the video track
+                        const videoElement = document.querySelector('#reader video');
+                        const track = videoElement?.srcObject?.getVideoTracks()[0];
+                        if (track?.applyConstraints) {
+                            await track.applyConstraints({
+                                advanced: [{ focusMode: "continuous" }]
+                            }).catch(() => {
+                                return track.applyConstraints({ focusMode: "continuous" });
+                            });
                         }
                     } catch (e) {
                         console.warn("[QR Debug] applyVideoConstraints error:", e);
