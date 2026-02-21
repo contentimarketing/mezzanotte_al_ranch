@@ -9,11 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "html5-qrcode": "^2.3.8",
+    "@yudiel/react-qr-scanner": "^2.5.1",
     "lucide-react": "^0.300.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-qr-reader": "^3.0.0-beta-1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

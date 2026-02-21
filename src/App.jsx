@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
+import { Scanner } from '@yudiel/react-qr-scanner';
 import { Camera, Lock, Unlock, Map, Skull, FileText, X, ChevronDown, ChevronUp, Search, PenTool, Eye, Key } from 'lucide-react';
 
 // --- DATA & CONTENT ---
@@ -633,143 +633,7 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
         setSelectedClue(clue);
     };
 
-    // --- HTML5 QR Scanner Logic (iOS-Compatible) ---
-    useEffect(() => {
-        let html5QrCode = null;
-        let patchedCreateElement = false;
-        const originalCreateElement = document.createElement.bind(document);
 
-        if (isScanning) {
-            const startScanner = async () => {
-                try {
-                    // 1. Wait for DOM to settle
-                    await new Promise(r => setTimeout(r, 300));
-                    if (!document.getElementById('reader')) return;
-
-                    // 2. iOS FIX: Monkey-patch createElement to inject playsinline
-                    //    BEFORE the library creates any <video> elements.
-                    //    On iOS Safari, playsinline must be set at creation time,
-                    //    not after the video starts playing.
-                    patchedCreateElement = true;
-                    document.createElement = function (tagName, options) {
-                        const el = originalCreateElement(tagName, options);
-                        if (tagName.toLowerCase() === 'video') {
-                            el.setAttribute('playsinline', 'true');
-                            el.setAttribute('webkit-playsinline', 'true');
-                            el.setAttribute('muted', '');
-                            el.setAttribute('autoplay', '');
-                            el.playsInline = true;
-                            el.muted = true;
-                        }
-                        return el;
-                    };
-
-                    // 3. Start html5-qrcode scanner — let it manage its own getUserMedia stream.
-                    //    Do NOT call getUserMedia manually; iOS cannot handle two concurrent streams.
-                    html5QrCode = new Html5Qrcode("reader");
-
-                    await html5QrCode.start(
-                        {
-                            facingMode: 'environment',
-                            // Richiediamo una risoluzione standard ideale, ma senza forzarla in modo bloccante (ideal vs exact)
-                            width: { ideal: 1280 },
-                            height: { ideal: 720 }
-                        },
-                        {
-                            fps: 10,
-                            // Un qrbox calcolato dinamicamente è più sicuro del full-frame su alcuni Android
-                            // Garantiamo un minimo di 200px per non far crashare la zona di crop
-                            qrbox: (viewfinderWidth, viewfinderHeight) => {
-                                const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-                                const boxSize = Math.max(200, Math.floor(minEdge * 0.7));
-                                return { width: boxSize, height: boxSize };
-                            },
-                            disableFlip: false
-                        },
-                        (decodedText) => {
-                            verifyCode(decodedText);
-                        },
-                        () => { /* scanning... */ }
-                    );
-
-                    // iOS specific bug workaround: force video constraints after starting
-                    setTimeout(async () => {
-                        try {
-                            if (html5QrCode.applyVideoConstraints) {
-                                await html5QrCode.applyVideoConstraints({ focusMode: "continuous" }).catch(e => console.warn("applyVideoConstraints inner error", e));
-                            }
-                        } catch (e) {
-                            console.warn("[QR Debug] applyVideoConstraints outer error:", e);
-                        }
-
-                        // Fallback: Apply directly to the video track
-                        try {
-                            const videoElement = document.querySelector('#reader video');
-                            const track = videoElement?.srcObject?.getVideoTracks()[0];
-                            if (track && track.applyConstraints) {
-                                // Try advanced constraints
-                                await track.applyConstraints({
-                                    advanced: [{ focusMode: "continuous" }]
-                                }).catch(async () => {
-                                    // Try basic constraints if advanced fails
-                                    await track.applyConstraints({ focusMode: "continuous" }).catch(e => console.warn("track basic constraints error", e));
-                                });
-                            }
-                        } catch (e) {
-                            console.warn("[QR Debug] track constraints error:", e);
-                        }
-                    }, 500); // Wait for the camera to fully initialize before forcing focus
-
-                    // 4. Restore original createElement now that scanner is running
-                    document.createElement = originalCreateElement;
-                    patchedCreateElement = false;
-
-                    // 5. Extra safety: also patch any video the library already created
-                    const readerEl = document.getElementById('reader');
-                    if (readerEl) {
-                        const videos = readerEl.querySelectorAll('video');
-                        videos.forEach(v => {
-                            v.setAttribute('playsinline', 'true');
-                            v.setAttribute('webkit-playsinline', 'true');
-                            v.playsInline = true;
-                        });
-                    }
-
-                } catch (err) {
-                    // Restore createElement if we errored mid-patch
-                    if (patchedCreateElement) {
-                        document.createElement = originalCreateElement;
-                    }
-                    console.error("Error starting scanner:", err);
-                    const errMsg = String(err?.message || err?.name || err || '');
-                    if (errMsg.includes('Permission') || errMsg.includes('NotAllowed') || errMsg.includes('denied')) {
-                        setError("Permesso fotocamera negato. Su iPhone, usa Safari e HTTPS.");
-                    } else if (errMsg.includes('NotFound') || errMsg.includes('DevicesNotFound')) {
-                        setError("Fotocamera non trovata. Usa il codice manuale.");
-                    } else if (errMsg.includes('NotReadable') || errMsg.includes('Could not start')) {
-                        setError("Fotocamera occupata. Chiudi altre app e riprova.");
-                    } else {
-                        setError("Errore fotocamera. Su iPhone usa Safari + HTTPS.");
-                    }
-                }
-            };
-
-            startScanner();
-        }
-
-        // Cleanup: stop scanner (it manages its own camera stream internally)
-        return () => {
-            // Restore createElement if cleanup runs while scanner is starting
-            if (patchedCreateElement) {
-                document.createElement = originalCreateElement;
-            }
-            if (html5QrCode && html5QrCode.isScanning) {
-                html5QrCode.stop().then(() => {
-                    html5QrCode.clear();
-                }).catch(err => console.error("Error stopping scanner", err));
-            }
-        };
-    }, [isScanning]);
 
     return (
         <div className="space-y-8 animate-fadeIn">
@@ -788,9 +652,23 @@ const CluesTab = ({ unlockedClues, onUnlock }) => {
                 <div className="fixed inset-0 z-50 bg-ink flex flex-col items-center justify-center">
                     <div className="relative w-full h-full flex flex-col bg-black">
 
-                        {/* HTML5 QR READER container */}
-                        <div id="reader" className="w-full h-full relative overflow-hidden bg-black [&>video]:object-cover [&>video]:w-full [&>video]:h-full">
-                            {/* The library will inject the video here */}
+                        {/* REACT QR SCANNER container */}
+                        <div className="w-full h-full relative overflow-hidden bg-black">
+                            <Scanner
+                                formats={['qr_code']}
+                                onScan={(result) => {
+                                    if (result && result.length > 0) {
+                                        verifyCode(result[0].rawValue);
+                                    }
+                                }}
+                                onError={(e) => {
+                                    console.error("Scanner Error:", e);
+                                    setError("Errore Fotocamera. Assicurati di aver concesso i permessi.");
+                                }}
+                                constraints={{ facingMode: 'environment' }}
+                                styles={{ container: { width: '100%', height: '100%' }, video: { objectFit: 'cover' } }}
+                                components={{ audio: false, finder: false }}
+                            />
                         </div>
 
                         {/* Old Photo Overlay Effects - REMOVED FOR VISIBILITY */}
